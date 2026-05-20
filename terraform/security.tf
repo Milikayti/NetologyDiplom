@@ -1,6 +1,6 @@
 resource "yandex_vpc_security_group" "bastion_sg" {
   name       = "bastion-sg"
-  network_id = yandex_vpc_network.diplom.id
+  network_id = data.yandex_vpc_network.default.id
 
   ingress {
     protocol       = "TCP"
@@ -18,13 +18,20 @@ resource "yandex_vpc_security_group" "bastion_sg" {
 
 resource "yandex_vpc_security_group" "web_sg" {
   name       = "web-sg"
-  network_id = yandex_vpc_network.diplom.id
+  network_id = data.yandex_vpc_network.default.id
 
   ingress {
     protocol          = "TCP"
     description       = "HTTP from ALB"
     port              = 80
     predefined_target = "loadbalancer_healthchecks"
+  }
+
+  ingress {
+    protocol       = "TCP"
+    description    = "HTTP from internal network"
+    port           = 80
+    v4_cidr_blocks = ["10.10.0.0/16"]
   }
 
   ingress {
@@ -43,7 +50,7 @@ resource "yandex_vpc_security_group" "web_sg" {
 
 resource "yandex_vpc_security_group" "public_services_sg" {
   name       = "public-services-sg"
-  network_id = yandex_vpc_network.diplom.id
+  network_id = data.yandex_vpc_network.default.id
 
   ingress {
     protocol       = "TCP"
@@ -75,7 +82,7 @@ resource "yandex_vpc_security_group" "public_services_sg" {
 
 resource "yandex_vpc_security_group" "elastic_sg" {
   name       = "elastic-sg"
-  network_id = yandex_vpc_network.diplom.id
+  network_id = data.yandex_vpc_network.default.id
 
   ingress {
     protocol       = "TCP"
