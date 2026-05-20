@@ -1,0 +1,12 @@
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+*.pem
+*.key
+*.tfvars
+.env
+authorized_key.json
+*.retry
+.vscode/
+.idea/
