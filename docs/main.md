@@ -64,3 +64,19 @@
 Для Terraform был создан файл `terraform.tfvars`, содержащий идентификаторы cloud и folder, а также используемые зоны доступности.
 
 Файл `terraform.tfvars` не публикуется в GitHub, так как добавлен в `.gitignore`.
+
+## Создание сетевой инфраструктуры
+
+На первом этапе в Terraform была описана базовая сетевая инфраструктура Yandex Cloud.
+
+Были созданы следующие ресурсы:
+
+- VPC `diplom-vpc`;
+- публичная подсеть `public-a`;
+- приватные подсети `private-a`, `private-b`, `private-d`;
+- NAT Gateway для исходящего доступа приватных виртуальных машин в интернет;
+- route table `private-nat-route` с маршрутом `0.0.0.0/0` через NAT Gateway.
+
+Публичная подсеть используется для bastion host, Zabbix, Kibana и Application Load Balancer.
+
+Приватные подсети используются для web-серверов и Elasticsearch. Приватные серверы не имеют внешних IP-адресов, а исходящий доступ в интернет получают через NAT Gateway.
