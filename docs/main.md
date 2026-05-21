@@ -190,4 +190,24 @@ ssh -J ubuntu@111.88.248.75 ubuntu@web-2.ru-central1.internal "curl -s http://lo
 
 Оба web-сервера вернули HTML-страницу с указанием своего FQDN.
 
+## Настройка Application Load Balancer
+
+Для распределения входящего HTTP-трафика был создан Application Load Balancer.
+
+В Terraform были описаны следующие ресурсы:
+
+- Target Group с двумя web-серверами;
+- Backend Group с HTTP backend на порт 80;
+- Healthcheck на путь `/`;
+- HTTP Router;
+- Virtual Host;
+- Application Load Balancer с публичным listener на порт 80.
+
+Публичный IP-адрес балансировщика: `84.252.130.22`.
+
+Работа балансировщика была проверена командой:
+
+curl -v http://84.252.130.22:80
+
+В результате был получен ответ `HTTP/1.1 200 OK` и HTML-страница web-сервера.
 
