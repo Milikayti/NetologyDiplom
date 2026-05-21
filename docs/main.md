@@ -312,3 +312,24 @@ ssh -J ubuntu@111.88.248.75 ubuntu@elastic.ru-central1.internal "curl -s 'http:/
 
 .ds-filebeat-8.13.4-2026.05.21-000001
 
+## Snapshot Elasticsearch
+
+Для резервного копирования данных Elasticsearch был настроен snapshot repository `netology_backup`.
+
+На сервере `elastic` была создана директория:
+
+/opt/elasticsearch-backup
+
+Она была подключена в Docker Compose как volume и указана в параметре Elasticsearch `path.repo`.
+
+Был создан snapshot:
+
+snapshot_1
+
+Проверка создания snapshot показала состояние:
+
+SUCCESS
+
+Количество успешных shard: 29.
+Количество failed shard: 0.
+
