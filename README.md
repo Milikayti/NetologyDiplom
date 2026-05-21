@@ -36,7 +36,7 @@
 
 http://84.252.130.22
 
-Zabbix:
+Zabbix: (Логин\пароль Admin zabbix)
 
 http://130.193.37.5:8080
 
