@@ -289,3 +289,26 @@ ssh ubuntu@93.77.191.44 "sudo docker logs --tail=30 kibana"
 
 В логах контейнера получено сообщение `Kibana is now available`.
 
+## Настройка Filebeat
+
+Для сбора логов nginx на web-серверах был установлен Filebeat.
+
+Так как скачивание пакетов Elastic может быть недоступно, Filebeat был развёрнут в Docker-контейнере на каждом web-сервере.
+
+Filebeat собирает следующие файлы:
+
+- `/var/log/nginx/access.log`;
+- `/var/log/nginx/error.log`.
+
+Логи отправляются в Elasticsearch:
+
+http://elastic.ru-central1.internal:9200
+
+Проверка индексов Elasticsearch была выполнена командой:
+
+ssh -J ubuntu@111.88.248.75 ubuntu@elastic.ru-central1.internal "curl -s 'http://localhost:9200/_cat/indices?v'"
+
+В результате был создан индекс Filebeat:
+
+.ds-filebeat-8.13.4-2026.05.21-000001
+
