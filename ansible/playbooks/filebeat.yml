@@ -1,0 +1,65 @@
+---
+- name: Install Filebeat with Docker
+  hosts: web
+  become: true
+
+  tasks:
+    - name: Install docker packages
+      ansible.builtin.apt:
+        name:
+          - docker.io
+          - docker-compose
+        state: present
+        update_cache: true
+
+    - name: Enable and start docker
+      ansible.builtin.systemd:
+        name: docker
+        enabled: true
+        state: started
+
+    - name: Create filebeat directory
+      ansible.builtin.file:
+        path: /opt/filebeat
+        state: directory
+        mode: "0755"
+
+    - name: Create filebeat config
+      ansible.builtin.copy:
+        dest: /opt/filebeat/filebeat.yml
+        mode: "0600"
+        content: |
+          filebeat.inputs:
+            - type: filestream
+              id: nginx-logs
+              enabled: true
+              paths:
+                - /var/log/nginx/access.log
+                - /var/log/nginx/error.log
+
+          output.elasticsearch:
+            hosts: ["http://elastic.ru-central1.internal:9200"]
+
+    - name: Create docker compose file
+      ansible.builtin.copy:
+        dest: /opt/filebeat/docker-compose.yml
+        mode: "0644"
+        content: |
+          services:
+            filebeat:
+              image: docker.elastic.co/beats/filebeat:8.13.4
+              container_name: filebeat
+              user: root
+              restart: always
+              volumes:
+                - /opt/filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+                - /var/log/nginx:/var/log/nginx:ro
+                - filebeat_data:/usr/share/filebeat/data
+
+          volumes:
+            filebeat_data:
+
+    - name: Start filebeat
+      ansible.builtin.command:
+        cmd: docker-compose up -d
+        chdir: /opt/filebeat
