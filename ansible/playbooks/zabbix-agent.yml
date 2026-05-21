@@ -1,0 +1,38 @@
+---
+- name: Install Zabbix agent
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Update apt cache
+      ansible.builtin.apt:
+        update_cache: true
+
+    - name: Install zabbix agent
+      ansible.builtin.apt:
+        name: zabbix-agent
+        state: present
+
+    - name: Configure zabbix server
+      ansible.builtin.lineinfile:
+        path: /etc/zabbix/zabbix_agentd.conf
+        regexp: "^Server="
+        line: "Server=10.10.1.11"
+
+    - name: Configure active server
+      ansible.builtin.lineinfile:
+        path: /etc/zabbix/zabbix_agentd.conf
+        regexp: "^ServerActive="
+        line: "ServerActive=10.10.1.11"
+
+    - name: Configure hostname
+      ansible.builtin.lineinfile:
+        path: /etc/zabbix/zabbix_agentd.conf
+        regexp: "^Hostname="
+        line: "Hostname={{ inventory_hostname }}"
+
+    - name: Enable and restart zabbix-agent
+      ansible.builtin.systemd:
+        name: zabbix-agent
+        enabled: true
+        state: restarted
