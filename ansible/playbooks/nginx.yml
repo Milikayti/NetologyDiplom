@@ -1,0 +1,35 @@
+---
+- name: Install and configure nginx on web servers
+  hosts: web
+  become: true
+
+  tasks:
+    - name: Update apt cache
+      ansible.builtin.apt:
+        update_cache: true
+
+    - name: Install nginx
+      ansible.builtin.apt:
+        name: nginx
+        state: present
+
+    - name: Create index page
+      ansible.builtin.copy:
+        dest: /var/www/html/index.html
+        content: |
+          <html>
+          <head>
+            <title>Netology Diplom</title>
+          </head>
+          <body>
+            <h1>Netology Diplom</h1>
+            <p>Server: {{ inventory_hostname }}</p>
+          </body>
+          </html>
+        mode: "0644"
+
+    - name: Enable and start nginx
+      ansible.builtin.systemd:
+        name: nginx
+        enabled: true
+        state: started
