@@ -233,3 +233,24 @@ curl -I http://130.193.37.5:8080
 
 В результате был получен ответ `HTTP/1.1 200 OK`.
 
+## Настройка Zabbix Agent
+
+На все виртуальные машины был установлен `zabbix-agent` с помощью Ansible.
+
+Agent установлен на:
+
+- bastion;
+- web-1;
+- web-2;
+- zabbix;
+- elastic;
+- kibana.
+
+В конфигурации агента указан Zabbix Server `10.10.1.11`.
+
+Проверка состояния агента была выполнена командой:
+
+ansible all -m shell -a "systemctl is-active zabbix-agent"
+
+На всех серверах получен статус `active`.
+
