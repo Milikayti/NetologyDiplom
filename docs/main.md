@@ -268,3 +268,24 @@ ssh -J ubuntu@111.88.248.75 ubuntu@elastic.ru-central1.internal "curl -s http://
 
 В результате Elasticsearch вернул информацию о кластере `docker-cluster` и версию `8.13.4`.
 
+## Настройка Kibana
+
+Для визуализации логов была развёрнута Kibana на отдельной виртуальной машине `kibana`.
+
+Kibana была установлена с помощью Ansible и Docker Compose.
+
+В конфигурации Kibana указан Elasticsearch:
+
+http://elastic.ru-central1.internal:9200
+
+Веб-интерфейс Kibana доступен по адресу:
+
+http://93.77.191.44:5601
+
+Проверка работы была выполнена командами:
+
+ssh ubuntu@93.77.191.44 "sudo docker ps"
+ssh ubuntu@93.77.191.44 "sudo docker logs --tail=30 kibana"
+
+В логах контейнера получено сообщение `Kibana is now available`.
+
