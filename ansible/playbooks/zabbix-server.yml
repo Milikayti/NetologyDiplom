@@ -1,0 +1,84 @@
+---
+- name: Install Zabbix server with Docker Compose
+  hosts: zabbix
+  become: true
+
+  tasks:
+    - name: Update apt cache
+      ansible.builtin.apt:
+        update_cache: true
+
+    - name: Install docker packages
+      ansible.builtin.apt:
+        name:
+          - docker.io
+          - docker-compose
+        state: present
+
+    - name: Enable and start docker
+      ansible.builtin.systemd:
+        name: docker
+        enabled: true
+        state: started
+
+    - name: Create zabbix directory
+      ansible.builtin.file:
+        path: /opt/zabbix
+        state: directory
+        mode: "0755"
+
+    - name: Create docker compose file
+      ansible.builtin.copy:
+        dest: /opt/zabbix/docker-compose.yml
+        mode: "0644"
+        content: |
+          services:
+            postgres:
+              image: postgres:16
+              container_name: zabbix-postgres
+              restart: always
+              environment:
+                POSTGRES_DB: zabbix
+                POSTGRES_USER: zabbix
+                POSTGRES_PASSWORD: zabbixpass
+              volumes:
+                - postgres_data:/var/lib/postgresql/data
+
+            zabbix-server:
+              image: zabbix/zabbix-server-pgsql:ubuntu-7.0-latest
+              container_name: zabbix-server
+              restart: always
+              environment:
+                DB_SERVER_HOST: postgres
+                POSTGRES_DB: zabbix
+                POSTGRES_USER: zabbix
+                POSTGRES_PASSWORD: zabbixpass
+              depends_on:
+                - postgres
+              ports:
+                - "10051:10051"
+
+            zabbix-web:
+              image: zabbix/zabbix-web-nginx-pgsql:ubuntu-7.0-latest
+              container_name: zabbix-web
+              restart: always
+              environment:
+                ZBX_SERVER_HOST: zabbix-server
+                DB_SERVER_HOST: postgres
+                POSTGRES_DB: zabbix
+                POSTGRES_USER: zabbix
+                POSTGRES_PASSWORD: zabbixpass
+                PHP_TZ: Europe/Moscow
+              depends_on:
+                - postgres
+                - zabbix-server
+              ports:
+                - "8080:8080"
+
+          volumes:
+            postgres_data:
+
+    - name: Start zabbix stack
+      ansible.builtin.command:
+        cmd: docker-compose up -d
+        chdir: /opt/zabbix
