@@ -333,3 +333,22 @@ SUCCESS
 Количество успешных shard: 29.
 Количество failed shard: 0.
 
+## Snapshot виртуальных машин
+
+Для резервного копирования инфраструктуры были созданы snapshots всех виртуальных машин в Yandex Cloud.
+
+Созданы snapshots:
+
+- bastion-snapshot
+- web1-snapshot
+- web2-snapshot
+- elastic-snapshot
+- kibana-snapshot
+- zabbix-snapshot
+
+Проверка была выполнена командой:
+
+yc compute snapshot list
+
+Все snapshots имеют статус `READY`.
+
