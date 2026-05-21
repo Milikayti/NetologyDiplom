@@ -38,4 +38,4 @@
 
 ## Zabbix
 
-![Zabbix](../screenshots/07-zabbix.png)
+![Zabbix](../screenshots/08-zabbix-final.png)
