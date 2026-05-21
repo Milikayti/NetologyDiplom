@@ -1,0 +1,48 @@
+---
+- name: Install Kibana with Docker
+  hosts: kibana
+  become: true
+
+  tasks:
+    - name: Update apt cache
+      ansible.builtin.apt:
+        update_cache: true
+
+    - name: Install docker packages
+      ansible.builtin.apt:
+        name:
+          - docker.io
+          - docker-compose
+        state: present
+
+    - name: Enable and start docker
+      ansible.builtin.systemd:
+        name: docker
+        enabled: true
+        state: started
+
+    - name: Create kibana directory
+      ansible.builtin.file:
+        path: /opt/kibana
+        state: directory
+        mode: "0755"
+
+    - name: Create docker compose file
+      ansible.builtin.copy:
+        dest: /opt/kibana/docker-compose.yml
+        mode: "0644"
+        content: |
+          services:
+            kibana:
+              image: docker.elastic.co/kibana/kibana:8.13.4
+              container_name: kibana
+              restart: always
+              environment:
+                - ELASTICSEARCH_HOSTS=http://elastic.ru-central1.internal:9200
+              ports:
+                - "5601:5601"
+
+    - name: Start kibana
+      ansible.builtin.command:
+        cmd: docker-compose up -d
+        chdir: /opt/kibana
