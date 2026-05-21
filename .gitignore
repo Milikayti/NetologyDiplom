@@ -1,11 +1,11 @@
+# Terraform
 *.tfstate
 *.tfstate.*
-.terraform/
-*.pem
-*.key
 *.tfvars
-.env
-authorized_key.json
+.terraform/
+
+# Ansible
 *.retry
-.vscode/
-.idea/
+
+# Linux
+.DS_Store
