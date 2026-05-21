@@ -174,3 +174,20 @@ ssh -J ubuntu@111.88.248.75 ubuntu@10.10.13.6 hostname
 web-1
 web-2
 elastic
+
+## Настройка web-серверов через Ansible
+
+Для настройки web-серверов был создан Ansible inventory с использованием внутренних FQDN-имён виртуальных машин в зоне `.ru-central1.internal`.
+
+Подключение к приватным серверам выполняется через bastion host с использованием SSH ProxyJump.
+
+На серверах `web-1` и `web-2` был установлен nginx и создана тестовая HTML-страница.
+
+Проверка работы nginx была выполнена командами:
+
+ssh -J ubuntu@111.88.248.75 ubuntu@web-1.ru-central1.internal "curl -s http://localhost"
+ssh -J ubuntu@111.88.248.75 ubuntu@web-2.ru-central1.internal "curl -s http://localhost"
+
+Оба web-сервера вернули HTML-страницу с указанием своего FQDN.
+
+
