@@ -254,3 +254,17 @@ ansible all -m shell -a "systemctl is-active zabbix-agent"
 
 На всех серверах получен статус `active`.
 
+## Настройка Elasticsearch
+
+Для хранения логов nginx был развёрнут Elasticsearch на отдельной виртуальной машине `elastic`.
+
+Сервер `elastic` размещён в приватной подсети и не имеет внешнего IP-адреса.
+
+Elasticsearch был установлен с помощью Ansible и Docker Compose.
+
+Проверка работы была выполнена командой:
+
+ssh -J ubuntu@111.88.248.75 ubuntu@elastic.ru-central1.internal "curl -s http://localhost:9200"
+
+В результате Elasticsearch вернул информацию о кластере `docker-cluster` и версию `8.13.4`.
+
