@@ -44,7 +44,7 @@
 
 ## Финальное состояние виртуальных машин
 
-![Final VM State](screenshots/09-vm-final-state.png)
+![Final VM State](../screenshots/09-vm-final-state.png)
 
 ---
 
