@@ -39,3 +39,12 @@
 ## Zabbix
 
 ![Zabbix](../screenshots/08-zabbix-final.png)
+
+---
+
+## Финальное состояние виртуальных машин
+
+![Final VM State](screenshots/09-vm-final-state.png)
+
+---
+
