@@ -192,9 +192,9 @@ Web-серверы и Elasticsearch не имеют внешних IP-адрес
 Проверка доступа к приватным серверам была выполнена командами:
 
 ```bash
-ssh -J ubuntu@111.88.248.75 ubuntu@10.10.11.10 hostname
-ssh -J ubuntu@111.88.248.75 ubuntu@10.10.12.13 hostname
-ssh -J ubuntu@111.88.248.75 ubuntu@10.10.13.6 hostname
+ssh -J ubuntu@93.77.189.131 ubuntu@10.10.11.10 hostname
+ssh -J ubuntu@93.77.189.131 ubuntu@10.10.12.13 hostname
+ssh -J ubuntu@93.77.189.131 ubuntu@10.10.13.6 hostname
 ```
 
 В результате были получены ответы:
@@ -218,9 +218,9 @@ elastic
 Проверка работы nginx была выполнена командами:
 
 ```bash
-ssh -J ubuntu@111.88.248.75 ubuntu@web-1.ru-central1.internal "curl -s http://localhost"
+ssh -J ubuntu@93.77.189.131 ubuntu@web-1.ru-central1.internal "curl -s http://localhost"
 
-ssh -J ubuntu@111.88.248.75 ubuntu@web-2.ru-central1.internal "curl -s http://localhost"
+ssh -J ubuntu@93.77.189.131 ubuntu@web-2.ru-central1.internal "curl -s http://localhost"
 ```
 
 Оба web-сервера вернули HTML-страницу с указанием своего FQDN.
@@ -290,13 +290,13 @@ Zabbix был установлен с помощью Ansible playbook и Docker 
 Веб-интерфейс Zabbix доступен по адресу:
 
 ```text
-http://130.193.37.5:8080
+http://93.77.184.7:8080
 ```
 
 Проверка доступности была выполнена командой:
 
 ```bash
-curl -I http://130.193.37.5:8080
+curl -I http://93.77.184.7:8080
 ```
 
 В результате был получен ответ:
@@ -351,7 +351,7 @@ Elasticsearch был установлен с помощью Ansible и Docker Co
 Проверка работы была выполнена командой:
 
 ```bash
-ssh -J ubuntu@111.88.248.75 ubuntu@elastic.ru-central1.internal "curl -s http://localhost:9200"
+ssh -J ubuntu@93.77.189.131 ubuntu@elastic.ru-central1.internal "curl -s http://localhost:9200"
 ```
 
 В результате Elasticsearch вернул информацию о кластере `docker-cluster` и версию `8.13.4`.
@@ -373,15 +373,15 @@ http://elastic.ru-central1.internal:9200
 Веб-интерфейс Kibana доступен по адресу:
 
 ```text
-http://93.77.191.44:5601
+http://93.77.183.204:5601
 ```
 
 Проверка работы была выполнена командами:
 
 ```bash
-ssh ubuntu@93.77.191.44 "sudo docker ps"
+ssh ubuntu@93.77.183.204 "sudo docker ps"
 
-ssh ubuntu@93.77.191.44 "sudo docker logs --tail=30 kibana"
+ssh ubuntu@93.77.183.204 "sudo docker logs --tail=30 kibana"
 ```
 
 В логах контейнера получено сообщение:
@@ -412,7 +412,7 @@ http://elastic.ru-central1.internal:9200
 Проверка индексов Elasticsearch была выполнена командой:
 
 ```bash
-ssh -J ubuntu@111.88.248.75 ubuntu@elastic.ru-central1.internal "curl -s 'http://localhost:9200/_cat/indices?v'"
+ssh -J ubuntu@93.77.189.131 ubuntu@elastic.ru-central1.internal "curl -s 'http://localhost:9200/_cat/indices?v'"
 ```
 
 В результате был создан индекс Filebeat:

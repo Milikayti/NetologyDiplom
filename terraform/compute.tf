@@ -7,10 +7,11 @@ locals {
 }
 
 resource "yandex_compute_instance" "bastion" {
-  name        = "bastion"
-  hostname    = "bastion"
-  platform_id = "standard-v3"
-  zone        = var.zone_a
+  name                      = "bastion"
+  hostname                  = "bastion"
+  platform_id               = "standard-v3"
+  allow_stopping_for_update = true
+  zone                      = var.zone_a
 
   resources {
     cores         = 2
@@ -33,7 +34,7 @@ resource "yandex_compute_instance" "bastion" {
   }
 
   scheduling_policy {
-    preemptible = true
+    preemptible = false
   }
 
   metadata = {
@@ -41,10 +42,11 @@ resource "yandex_compute_instance" "bastion" {
   }
 }
 resource "yandex_compute_instance" "web_1" {
-  name        = "web-1"
-  hostname    = "web-1"
-  platform_id = "standard-v3"
-  zone        = var.zone_a
+  name                      = "web-1"
+  hostname                  = "web-1"
+  platform_id               = "standard-v3"
+  allow_stopping_for_update = true
+  zone                      = var.zone_a
 
   resources {
     cores         = 2
@@ -67,7 +69,7 @@ resource "yandex_compute_instance" "web_1" {
   }
 
   scheduling_policy {
-    preemptible = true
+    preemptible = false
   }
 
   metadata = {
@@ -76,10 +78,11 @@ resource "yandex_compute_instance" "web_1" {
 }
 
 resource "yandex_compute_instance" "web_2" {
-  name        = "web-2"
-  hostname    = "web-2"
-  platform_id = "standard-v3"
-  zone        = var.zone_b
+  name                      = "web-2"
+  hostname                  = "web-2"
+  platform_id               = "standard-v3"
+  allow_stopping_for_update = true
+  zone                      = var.zone_b
 
   resources {
     cores         = 2
@@ -102,7 +105,7 @@ resource "yandex_compute_instance" "web_2" {
   }
 
   scheduling_policy {
-    preemptible = true
+    preemptible = false
   }
 
   metadata = {
@@ -111,10 +114,11 @@ resource "yandex_compute_instance" "web_2" {
 }
 
 resource "yandex_compute_instance" "zabbix" {
-  name        = "zabbix"
-  hostname    = "zabbix"
-  platform_id = "standard-v3"
-  zone        = var.zone_a
+  name                      = "zabbix"
+  hostname                  = "zabbix"
+  platform_id               = "standard-v3"
+  allow_stopping_for_update = true
+  zone                      = var.zone_a
 
   resources {
     cores         = 2
@@ -137,7 +141,7 @@ resource "yandex_compute_instance" "zabbix" {
   }
 
   scheduling_policy {
-    preemptible = true
+    preemptible = false
   }
 
   metadata = {
@@ -146,10 +150,11 @@ resource "yandex_compute_instance" "zabbix" {
 }
 
 resource "yandex_compute_instance" "elastic" {
-  name        = "elastic"
-  hostname    = "elastic"
-  platform_id = "standard-v3"
-  zone        = var.zone_d
+  name                      = "elastic"
+  hostname                  = "elastic"
+  platform_id               = "standard-v3"
+  allow_stopping_for_update = true
+  zone                      = var.zone_d
 
   resources {
     cores         = 2
@@ -172,7 +177,7 @@ resource "yandex_compute_instance" "elastic" {
   }
 
   scheduling_policy {
-    preemptible = true
+    preemptible = false
   }
 
   metadata = {
@@ -181,10 +186,11 @@ resource "yandex_compute_instance" "elastic" {
 }
 
 resource "yandex_compute_instance" "kibana" {
-  name        = "kibana"
-  hostname    = "kibana"
-  platform_id = "standard-v3"
-  zone        = var.zone_a
+  name                      = "kibana"
+  hostname                  = "kibana"
+  platform_id               = "standard-v3"
+  allow_stopping_for_update = true
+  zone                      = var.zone_a
 
   resources {
     cores         = 2
@@ -207,7 +213,7 @@ resource "yandex_compute_instance" "kibana" {
   }
 
   scheduling_policy {
-    preemptible = true
+    preemptible = false
   }
 
   metadata = {
